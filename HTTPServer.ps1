@@ -1,5 +1,5 @@
 ﻿Set-Location -Path ($MyInvocation.MyCommand.Path | Split-Path -Parent)
-Import-Module -Name ".\HTTP.psm1"
+Import-Module -Name ".\HTTP.psm1" -Scope Local
 Import-Module -Name ".\Variables.ps1"
 
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -31,8 +31,8 @@ if ($isAdmin) {
                 if ($requestBody.Operation -eq "fetch") {
                     Send-ResponseFile -ResponseObject $response -StatusCode 200 -ContentType $ContentTypeFile -Path $requestBody.FilePath
                 }
-                if ($requestBody.Operation -eq "fetch") {
-                    Send-ResponseFile -ResponseObject $response -StatusCode 200 -ContentType $ContentTypeFile -Path $requestBody.FilePath
+                if ($requestBody.Operation -eq "delete") {
+                    # TODO
                 }
                 else {
                     Send-ResponseString -ResponseObject $response -StatusCode 200 -ContentType $ContentTypeText -String "ERROR - You need to provide the following values: FilePath, Operation (fetch, delete)"
