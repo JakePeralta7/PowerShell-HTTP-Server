@@ -31,7 +31,7 @@ if ($isAdmin) {
                 if ($requestBody.Operation -eq "fetch") {
                     Send-ResponseFile -ResponseObject $response -StatusCode 200 -ContentType $ContentTypeFile -Path $requestBody.FilePath
                 }
-                if ($requestBody.Operation -eq "delete") {
+                elseif ($requestBody.Operation -eq "delete") {
                     # TODO
                 }
                 else {
