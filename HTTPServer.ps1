@@ -1,4 +1,5 @@
-﻿Import-Module -Name ".\HTTP.psm1"
+﻿Set-Location -Path ($MyInvocation.MyCommand.Path | Split-Path -Parent)
+Import-Module -Name ".\HTTP.psm1"
 Import-Module -Name ".\Variables.ps1"
 
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
