@@ -14,16 +14,27 @@ function Send-ResponseString ($ResponseObject, $StatusCode, $ContentType, $Strin
 }
 
 function Send-ResponseFile ($ResponseObject, $StatusCode, $ContentType, $Path) {
+    if (Test-Path -Path $Path) {
 
-    # Set the response status code and content type
-    $response.StatusCode = 200
-    $response.ContentType = "application/octet-stream"
+        # Set the response status code and content type
+        $ResponseObject.StatusCode = 200
+        $ResponseObject.ContentType = "application/octet-stream"
 
-    # Read the file and write it to the response body
-    $buffer = [System.IO.File]::ReadAllBytes($Path)
-    $response.ContentLength64 = $buffer.Length
-    $response.OutputStream.Write($buffer, 0, $buffer.Length)
+        # Read the file and write it to the response body
+        $buffer = [System.IO.File]::ReadAllBytes($Path)
+    }
+    else {
+
+        # Set the response status code and content type
+        $ResponseObject.StatusCode = 404
+        $ResponseObject.ContentType = "text/plain"
+        
+        # Write the response body
+        $buffer = [System.Text.Encoding]::UTF8.GetBytes("ERROR: Path not Found")
+    }
+    $ResponseObject.ContentLength64 = $buffer.Length
+    $ResponseObject.OutputStream.Write($buffer, 0, $buffer.Length)
 
     # Close the response to send it to the client
-    $response.Close()
+    $ResponseObject.Close()
 }
