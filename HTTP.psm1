@@ -1,5 +1,5 @@
 function Send-ResponseString ($ResponseObject, $StatusCode, $ContentType, $String) {
-
+    
     # Set the response status code and content type
     $ResponseObject.StatusCode = 200
     $ResponseObject.ContentType = "text/plain"
